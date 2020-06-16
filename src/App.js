@@ -1,5 +1,9 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { customerActions } from './redux/actions'
 import AddUserForm from './forms/AddUserForm'
 import EditUserForm from './forms/EditUserForm'
 import UserTable from './tables/UserTable'
@@ -14,48 +18,34 @@ const TableWrapper = styled.div`
 	margin: 0 12px;
 `;
 
-const App = () => {
-	// Data
-	const usersData = [
-		{ id: 1, fname: 'Tony', lname: 'Lew', birthday: "1999/09/09", phone: ""  },
-		{ id: 2, fname: 'Jeffrey', lname: 'Dion', birthday: "1999/09/09", phone: ""  },
-		{ id: 3, fname: 'Jhon', lname: 'Doe', birthday: "1999/09/09", phone: ""  },
-	]
+const App = (props) => {
 
-	const initialFormState = { id: null, fname: '', lname: '', birthday: "1999/09/09", phone: "" }
+	const initialFormState = { id: null, fname: '', lname: '', birthday: "1999-09-09", phone: "" }
 
+	const [ searchResults, setSearchResults ] = useState([]);
 	// Setting state
-	const [ users, setUsers ] = useState(usersData)
+	const { usersData, editing,
+			addUser, deleteUser, updateUser, setEditing
+		} = props;
+
 	const [ currentUser, setCurrentUser ] = useState(initialFormState)
-	const [ editing, setEditing ] = useState(false)
-	const [ searchResults, setSearchResults ] = useState(users);
 
-	// CRUD operations
-	const addUser = user => {
-		user.id = users.length + 1
-		setUsers([ ...users, user ])
-	}
+	useEffect(() => {
+		setSearchResults(usersData);
+	},[usersData]);
 
-	const deleteUser = id => {
-		setEditing(false)
+	// const updateUser = (id, updatedUser) => {
 
-		setUsers(users.filter(user => user.id !== id))
-	}
-
-	const updateUser = (id, updatedUser) => {
-		setEditing(false)
-
-		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
-	}
+	// 	setUsers(usersData.map(user => (user.id === id ? updatedUser : user)))
+	// }
 
 	const editRow = user => {
-		setEditing(true)
-
 		setCurrentUser({ id: user.id, fname: user.fname, lname: user.lname, birthday: user.birthday, phone: user.phone })
+		setEditing(true);
 	}
 
 	const onSearch = value => {
-		const res = users.filter((user) => {
+		const res = usersData.filter((user) => {
 			if(user.fname.toUpperCase().includes(value.toUpperCase()) || 
 			user.lname.toUpperCase().includes(value.toUpperCase()) || 
 			user.birthday.toString().toUpperCase().includes(value.toUpperCase()) || 
@@ -100,4 +90,28 @@ const App = () => {
 	)
 }
 
-export default App
+App.defaultProps = {
+	usersData: [],
+	editing: false
+}
+
+App.propTypes = {
+	usersData: PropTypes.array,
+	editing: PropTypes.bool
+}
+
+function mapStateToProps(state, props) {
+    return {
+		usersData: state.customers.usersData,
+		editing: state.customers.editing
+    };
+}
+
+const actionCreators = {
+    addUser: customerActions.addUser,
+    deleteUser: customerActions.deleteUser,
+    updateUser: customerActions.updateUser,
+	setEditing: customerActions.setEditing
+}
+
+export default connect(mapStateToProps, actionCreators)(App)
