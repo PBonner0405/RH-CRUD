@@ -4,8 +4,10 @@ const UserTable = props => (
   <table>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Username</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Birthday</th>
+        <th>Phone</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -13,8 +15,10 @@ const UserTable = props => (
       {props.users.length > 0 ? (
         props.users.map(user => (
           <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.username}</td>
+            <td>{user.fname}</td>
+            <td>{user.lname}</td>
+            <td>{user.birthday}</td>
+            <td>{user.phone}</td>
             <td>
               <button
                 onClick={() => {
