@@ -18,7 +18,7 @@ const TableWrapper = styled.div`
 	margin: 0 12px;
 `;
 
-const App = (props) => {
+const App = (props: any) => {
 
 	const initialFormState = { id: null, fname: '', lname: '', birthday: "1999-09-09", phone: "" }
 
@@ -39,13 +39,13 @@ const App = (props) => {
 	// 	setUsers(usersData.map(user => (user.id === id ? updatedUser : user)))
 	// }
 
-	const editRow = user => {
+	const editRow = (user: any) => {
 		setCurrentUser({ id: user.id, fname: user.fname, lname: user.lname, birthday: user.birthday, phone: user.phone })
 		setEditing(true);
 	}
 
-	const onSearch = value => {
-		const res = usersData.filter((user) => {
+	const onSearch = (value: any) => {
+		const res = usersData.filter((user: any) => {
 			if(user.fname.toUpperCase().includes(value.toUpperCase()) || 
 			user.lname.toUpperCase().includes(value.toUpperCase()) || 
 			user.birthday.toString().toUpperCase().includes(value.toUpperCase()) || 
@@ -100,7 +100,7 @@ App.propTypes = {
 	editing: PropTypes.bool
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state: any, props: any) {
     return {
 		usersData: state.customers.usersData,
 		editing: state.customers.editing

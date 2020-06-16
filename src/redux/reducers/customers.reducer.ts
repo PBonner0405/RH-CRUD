@@ -2,14 +2,14 @@ import Strings from '../../constants/strings';
 
 const initialState = { 
                         usersData: [
-                            { id: 1, fname: 'Tony', lname: 'Lew', birthday: "1999-09-09", phone: ""  },
-                            { id: 2, fname: 'Jeffrey', lname: 'Dion', birthday: "1999-09-09", phone: ""  },
-                            { id: 3, fname: 'Jhon', lname: 'Doe', birthday: "1999-09-09", phone: ""  },
+                            { id: 1, fname: 'Tony', lname: 'Lew', birthday: "1987-8-20", phone: ""  },
+                            { id: 2, fname: 'Jeffrey', lname: 'Dion', birthday: "1989-6-20", phone: ""  },
+                            { id: 3, fname: 'Jhon', lname: 'Doe', birthday: "1990-7-26", phone: ""  },
                         ],
                         editing: false
                     };
 
-export function customer(state = initialState, action) {
+export function customer(state = initialState, action: any) {
     switch (action.type) {
     case Strings.ADD_REQUEST:
         return {
